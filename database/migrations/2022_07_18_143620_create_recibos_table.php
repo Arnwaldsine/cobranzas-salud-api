@@ -1,0 +1,36 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('recibos', function (Blueprint $table) {
+            $table->id();
+            $table->timestamps();
+            $table->decimal('total',10,2);
+            $table->string('observaciones');
+            $table->unsignedBigInteger('punto_venta_id');
+            $table->foreign('punto_venta_id')->references('id')->on('puntos_venta');
+            $table->softDeletes('deleted_at', 0);
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('recibos');
+    }
+};
